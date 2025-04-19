@@ -8,11 +8,31 @@ __pycache__/
 
 # Temporary files
 temp_data/
+*.tmp
+*.temp
+*.log
 
 # OS specific
 .DS_Store
+Thumbs.db
+Desktop.ini
 
 # Virtual environment
 venv/
 env/
-.venv/ 
+.venv/
+
+# Docker
+.docker/
+docker-volumes/
+
+# Editor specific
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/ 
