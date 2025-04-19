@@ -1,0 +1,18 @@
+# Environment variables
+.env
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Temporary files
+temp_data/
+
+# OS specific
+.DS_Store
+
+# Virtual environment
+venv/
+env/
+.venv/ 

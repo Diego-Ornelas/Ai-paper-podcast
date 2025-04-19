@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Paper Podcast Generator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-podcast"></i> AI Paper Podcast Generator</h1>
+            <p class="subtitle">Transform complex research papers into engaging podcast episodes</p>
+        </header>
+
+        <div class="section">
+            <h2><i class="fas fa-tags"></i> Select Topics</h2>
+            <div id="topics" class="topics-grid">
+                {% for display_name, code in topics.items() %}
+                <button class="topic-button" data-topic="{{ display_name }}">
+                    {{ display_name }}
+                </button>
+                {% endfor %}
+            </div>
+            <button id="fetch-button" disabled><i class="fas fa-search"></i> Fetch Papers</button>
+            <div id="topic-error" class="error-message"></div>
+        </div>
+
+        <div class="section">
+            <h2><i class="fas fa-file-alt"></i> Choose a Paper</h2>
+            <div id="papers-loading" class="loading" style="display: none;">
+                <i class="fas fa-spinner fa-spin"></i> Loading papers...
+            </div>
+            <div id="papers-list">
+                <!-- Papers will be loaded here as a table -->
+            </div>
+            <div id="paper-error" class="error-message"></div>
+        </div>
+
+        <div class="section">
+            <h2><i class="fas fa-microphone-alt"></i> Podcast Script</h2>
+            <div id="podcast-loading" class="loading" style="display: none;">
+                <i class="fas fa-spinner fa-spin"></i> Generating podcast script (this may take several minutes)...
+            </div>
+            <pre id="podcast-script"></pre>
+            <div id="podcast-error" class="error-message"></div>
+        </div>
+        
+        <footer>
+            <p>Created with <i class="fas fa-brain"></i> AI and <i class="fas fa-heart"></i></p>
+        </footer>
+    </div>
+    
+    <!-- API Keys Modal -->
+    <div id="api-keys-modal" class="modal" {% if not api_keys_configured %}style="display:flex"{% endif %}>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-key"></i> Configure API Keys</h2>
+                <p>You need to set up your API keys to use this application</p>
+            </div>
+            <div class="modal-body">
+                <form id="api-keys-form">
+                    <div class="form-group">
+                        <label for="gemini-api-key">
+                            <i class="fas fa-robot"></i> Gemini API Key
+                            <a href="https://makersuite.google.com/app/apikey" target="_blank" class="help-link">
+                                <i class="fas fa-question-circle"></i>
+                            </a>
+                        </label>
+                        <input type="password" id="gemini-api-key" placeholder="Enter your Gemini API key" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="openai-api-key">
+                            <i class="fas fa-microphone"></i> OpenAI API Key
+                            <a href="https://platform.openai.com/api-keys" target="_blank" class="help-link">
+                                <i class="fas fa-question-circle"></i>
+                            </a>
+                        </label>
+                        <input type="password" id="openai-api-key" placeholder="Enter your OpenAI API key" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" id="save-api-keys">
+                            <i class="fas fa-save"></i> Save API Keys
+                        </button>
+                    </div>
+                </form>
+                <div id="api-keys-error" class="error-message"></div>
+                <div id="api-keys-success" class="success-message" style="display: none;">
+                    <i class="fas fa-check-circle"></i> API keys saved successfully!
+                </div>
+            </div>
+            <div class="modal-footer">
+                <p>Your API keys are stored only in your local .env file and are never sent to any server except the respective API providers.</p>
+                <button id="configure-later" class="secondary-button">Configure Later</button>
+            </div>
+        </div>
+    </div>
+
+    <button id="show-api-config" class="floating-button" {% if not api_keys_configured %}style="display:flex"{% else %}style="display:none"{% endif %}>
+        <i class="fas fa-key"></i>
+    </button>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html> 
